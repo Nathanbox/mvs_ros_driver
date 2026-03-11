@@ -204,7 +204,7 @@ static void *WorkThread(void *pUser) {
 
   MV_FRAME_OUT_INFO_EX stImageInfo = {0};
   MV_CC_PIXEL_CONVERT_PARAM stConvertParam = {0};
-  
+
   unsigned char* pData = (unsigned char *)malloc(sizeof(unsigned char) * stParam.nCurValue * 3);
   unsigned char* pDataForBGR = (unsigned char*)malloc(sizeof(unsigned char) * stParam.nCurValue * 3);
 
@@ -219,7 +219,7 @@ static void *WorkThread(void *pUser) {
 
     nRet = MV_CC_GetOneFrameTimeout(pUser, pData, stParam.nCurValue * 3, &stImageInfo, 1000);
     if (nRet == MV_OK) {
-      
+
       ros::Time rcv_time;
       if(trigger_enable && pointt != MAP_FAILED && pointt->low != 0)
       {
@@ -253,14 +253,15 @@ static void *WorkThread(void *pUser) {
         printf("MV_CC_ConvertPixelType failed! nRet [%x], skipping this frame\n", nRet);
         continue;
       }
-      cv::Mat srcImage;
-      srcImage = cv::Mat(stImageInfo.nHeight, stImageInfo.nWidth, CV_8UC3, pDataForBGR);
+      cv::Mat srcImage(stImageInfo.nHeight, stImageInfo.nWidth, CV_8UC3, pDataForBGR);
 
-      // cv::Mat srcImage;
-      // srcImage = cv::Mat(stImageInfo.nHeight, stImageInfo.nWidth, CV_8UC3, pData);
-      if (image_scale > 0.0) {
-        cv::resize(srcImage, srcImage, cv::Size(srcImage.cols * image_scale, srcImage.rows * image_scale), cv::INTER_LINEAR);
-      } else {
+      if (image_scale > 0.0 && std::abs(image_scale - 1.0) > 0.01) {
+        int newW = static_cast<int>(srcImage.cols * image_scale);
+        int newH = static_cast<int>(srcImage.rows * image_scale);
+        cv::Mat resized(newH, newW, CV_8UC3);
+        cv::resize(srcImage, resized, resized.size(), 0, 0, cv::INTER_LINEAR);
+        srcImage = resized;
+      } else if (image_scale <= 0.0) {
         printf("Invalid image_scale: %f. Skipping resize.\n", image_scale);
       }
       sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "rgb8", srcImage).toImageMsg();

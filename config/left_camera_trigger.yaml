@@ -3,7 +3,7 @@
 #--------------------------------------------------------------------------------------------
 # Camera Parameters. Adjust them!
 #--------------------------------------------------------------------------------------------
-SerialNumber: "DA2099368" # Not needed for single camera. Specify serial number for multiple cameras. 
+SerialNumber: "DA8185764" # Not needed for single camera. Specify serial number for multiple cameras. 
 TopicName: "left_camera/image"
 
 TriggerEnable: 0 #1 # 0 stands for Off, 1 stands for On
@@ -22,4 +22,4 @@ Gamma: 0.7  # min: 0   max: 17.0166
 GammaSelector: 1 # 0 stands for user, 1 stands for sRGB
 # GammaEnable: 1
 
-PixelFormat: 2 # 0: RGB8, 1: BayerRG8, 2: BayerRG12Packed, 3: BayerGB12Packed, 4: BayerGB8
+PixelFormat: 4 # 0: RGB8, 1: BayerRG8, 2: BayerRG12Packed, 3: BayerGB12Packed, 4: BayerGB8
