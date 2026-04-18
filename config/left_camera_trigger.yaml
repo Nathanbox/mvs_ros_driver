@@ -17,8 +17,8 @@ AutoExposureTimeUpper: 30000
 
 image_scale: 1 # 1 0.5
 GainAuto: 0 # Gain Auto, 0 stands for Off, 1 stands for Once, 2 stands for Continues
-Gain: 16 # min: 0   max: 17.0166
-Gamma: 0.7  # min: 0   max: 17.0166
+Gain: 0 # min: 0   max: 17.0166
+Gamma: 1  # min: 0   max: 17.0166
 GammaSelector: 1 # 0 stands for user, 1 stands for sRGB
 # GammaEnable: 1
 
